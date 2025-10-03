@@ -1,0 +1,16 @@
+system: zeroflux
+image_tag: "KDD-EXAMPLE"
+block_base_dir: services/
+
+realms:
+  _base_:
+    web_external_ports: 8081
+
+  dev:
+    yaml_dir: k8s/dev/
+    context: minikube
+    registry: 192.168.0.104:5000
+    confirm_delete: false
+
+blocks:
+  - name: web-server
