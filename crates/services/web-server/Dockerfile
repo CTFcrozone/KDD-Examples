@@ -10,12 +10,12 @@ FROM debian:bullseye-slim
 
 WORKDIR /service
 
-COPY --from=builder /service/target/release/web-server ./web-server
-COPY --from=builder /service/services/web-server/web-folder ./web-folder/
-COPY --from=builder /service/services/web-server/sql ./sql/
+COPY --from=builder /crates/services/web-server/target/release/web-server ./web-server
+COPY --from=builder /crates/services/web-server/web-folder ./web-folder/
+COPY --from=builder /crates/services/web-server/sql ./sql/
 
 COPY --from=builder /service/web-server/entrypoint.sh ./
 
 RUN chmod +x entrypoint.sh
 
-ENTRYPOINT [ "/bin/bash", "-c", "source ~/.bashrc && /service/web-server/entrypoint.sh ${@}", "--" ]
+ENTRYPOINT [ "/bin/bash", "-c", "source ~/.bashrc && /service/entrypoint.sh ${@}", "--" ]
