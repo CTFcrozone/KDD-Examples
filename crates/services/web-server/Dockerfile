@@ -12,8 +12,8 @@ WORKDIR /service
 
 COPY --from=builder /build/target/release/web-server ./web-server
 
-COPY --from=builder /build/crates/services/web-server/web-folder ./web-folder/
-COPY --from=builder /build/crates/services/web-server/sql ./sql/
+COPY --from=builder /build/web-folder ./web-folder/
+COPY --from=builder /build/sql ./sql/
 
 COPY --from=builder /build/crates/services/web-server/entrypoint.sh ./entrypoint.sh
 
