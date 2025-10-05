@@ -1,6 +1,6 @@
 FROM rust:1.85-slim-bullseye AS builder
 
-WORKDIR /service
+WORKDIR /build
 
 COPY ../../../ .
 
@@ -10,11 +10,12 @@ FROM debian:bullseye-slim
 
 WORKDIR /service
 
-COPY --from=builder /crates/services/web-server/target/release/web-server ./web-server
-COPY --from=builder /crates/services/web-server/web-folder ./web-folder/
-COPY --from=builder /crates/services/web-server/sql ./sql/
+COPY --from=builder /build/target/release/web-server ./web-server
 
-COPY --from=builder /service/web-server/entrypoint.sh ./
+COPY --from=builder /build/crates/services/web-server/web-folder ./web-folder/
+COPY --from=builder /build/crates/services/web-server/sql ./sql/
+
+COPY --from=builder /build/crates/services/web-server/entrypoint.sh ./entrypoint.sh
 
 RUN chmod +x entrypoint.sh
 
