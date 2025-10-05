@@ -1,0 +1,41 @@
+[package]
+name = "lib-core"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+doctest = false
+
+[lints]
+workspace = true
+
+[features]
+with-rpc = ["rpc-router"]
+
+[dependencies]
+# -- App Libs
+lib-utils = { path = "../../libs/lib-utils"}
+lib-auth = { path = "../../libs/lib-auth"}
+# -- Async
+tokio = { version = "1", features = ["full"] }
+# -- Json
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_with = { workspace = true }
+# -- Data
+sqlx = { workspace = true }
+sea-query = { workspace = true }
+sea-query-binder = { workspace = true }
+modql = { workspace = true }
+# -- Tracing
+tracing = "0.1"
+# -- Others
+uuid = {version = "1", features = ["v4","fast-rng",]}
+time = { workspace = true }
+derive_more = { workspace = true }
+
+# -- Feature: with-rpc
+rpc-router = { workspace = true, optional = true }
+
+[dev-dependencies]
+serial_test = "3"

@@ -1,25 +1,45 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zeroflux-web-server-dep
+  name: rust10x-web-server-dep
   namespace: default
   labels:
-    run: zeroflux-web-server
+    run: rust10x-web-server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: zeroflux-web-server
+      run: rust10x-web-server
   template:
     metadata:
       labels:
-        run: zeroflux-web-server
+        run: rust10x-web-server
     spec:
+      volumes:
+        - name: rust10x-web-server-sql
+          hostPath:
+            path: "{{dir_abs}}/sql"
+            type: Directory
+        - name: rust10x-web-server-web-folder
+          hostPath:
+            path: "{{dir_abs}}/web-folder"
+            type: Directory
+        - name: rust10x-web-server-bin
+          hostPath:
+            path: "{{dir_abs}}/rs-builder/rs-builder-target/web-server"
+            type: File
       containers:
-        - image: "{{registry}}/zeroflux-web-server:{{image_tag}}"
-          name: zeroflux-web-server-ctn
+        - image: "{{registry}}/rust10x-web-server:{{image_tag}}"
+          name: rust10x-web-server-ctn
           imagePullPolicy: Always
           env:
             - name: service_name
-              value: zeroflux-web-server
+              value: rust10x-web-server
+          volumeMounts:
+            - mountPath: /service/sql
+              name: rust10x-web-server-sql
+            - mountPath: /service/web-server
+              name: rust10x-web-server-bin
+            - mountPath: /service/web-folder
+              name: rust10x-web-server-web-folder
       restartPolicy: Always

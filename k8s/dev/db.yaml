@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rust10x-db-srv
+  namespace: default
+  labels:
+    run: rust10x-db
+spec:
+  ports:
+    - port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    run: rust10x-db
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: rust10x-db
+  name: rust10x-db-dep
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: rust10x-db
+  template:
+    metadata:
+      labels:
+        run: rust10x-db
+    spec:
+      containers:
+        - image: "{{registry}}/rust10x-db:{{image_tag}}"
+          imagePullPolicy: Always
+          name: rust10x-db-ctn
+          env:
+            - name: service_name
+              value: db
+            # Default root postgres user password.
+            # NOT FOR PRODUCTION!!!!! FOR DEV ONLY. In prod use cloud sql / rds. Set root password.
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+      restartPolicy: Always

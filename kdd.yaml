@@ -1,6 +1,11 @@
-system: zeroflux
-image_tag: "KDD-EXAMPLE"
-block_base_dir: services/
+vars:
+  - from_file: crates/services/web-server/Cargo.toml
+    extract: ["version"]
+  - from_env: ["USER"]
+---
+system: rust10x
+image_tag: "{{version}}"
+block_base_dir: crates/services/
 
 realms:
   _base_:
@@ -13,4 +18,5 @@ realms:
     confirm_delete: false
 
 blocks:
+  - name: db
   - name: web-server

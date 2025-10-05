@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    run: zeroflux-web-server
-  name: zeroflux-web-server-srv
+    run: rust10x-web-server
+  name: rust10x-web-server-srv
   namespace: default
 spec:
   ports:
@@ -12,7 +12,7 @@ spec:
       protocol: TCP
       targetPort: 8081
   selector:
-    run: zeroflux-web-server
+    run: rust10x-web-server
   type: LoadBalancer
 ---
 
