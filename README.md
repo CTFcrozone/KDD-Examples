@@ -6,7 +6,15 @@ Start a local registry to host your Docker images:
 docker run -d -p 5000:5000 --restart=unless-stopped --name registry registry
 ```
 
-## 2. Start Minikube
+## 2. Build rs-builder binaries
+
+```bash
+docker build -t rs-builder -f ./rs-builder/Dockerfile .
+
+./builder-rs.sh
+```
+
+## 3. Start Minikube
 
 Start Minikube with the insecure registry pointing to your host registry:
 
@@ -19,7 +27,7 @@ minikube mount $(pwd):/mnt
 
 Replace 192.168.0.104 with your host machine IP.
 
-## 3. Build and Deploy with KDD
+## 4. Build and Deploy with KDD
 
 ```bash
 
@@ -36,7 +44,7 @@ kdd dpush
 kdd kapply
 ```
 
-## 4. Loadbalancer
+## 5. Loadbalancer
 
 ```bash
 # start minikube tunnel
@@ -46,6 +54,6 @@ minikube tunnel
 kubectl get svc rust10x-web-server-srv
 ```
 
-## 5. Test
+## 6. Test
 
 Make some requests to the API at http://IP:8081/ (replace IP with the service's EXTERNAL-IP)
