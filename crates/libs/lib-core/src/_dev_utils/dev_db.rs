@@ -11,8 +11,10 @@ use tracing::info;
 type Db = Pool<Postgres>;
 
 // NOTE: Hardcode to prevent deployed system db update.
-const PG_DEV_POSTGRES_URL: &str = "postgres://postgres:welcome@localhost/postgres";
-const PG_DEV_APP_URL: &str = "postgres://app_user:dev_only_pwd@localhost/app_db";
+const PG_DEV_POSTGRES_URL: &str =
+	"postgres://postgres:welcome@rust10x-db-srv/postgres";
+const PG_DEV_APP_URL: &str =
+	"postgres://app_user:dev_only_pwd@rust10x-db-srv/app_db";
 
 // sql files
 const SQL_RECREATE_DB_FILE_NAME: &str = "00-recreate-db.sql";

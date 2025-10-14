@@ -2,7 +2,7 @@ FROM rust:1.85-slim-bullseye AS builder
 
 WORKDIR /build
 
-COPY ../../../ .
+COPY . .
 
 RUN cargo build -p web-server --release
 
