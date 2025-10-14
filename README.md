@@ -12,6 +12,9 @@ Start Minikube with the insecure registry pointing to your host registry:
 
 ```bash
 minikube start --insecure-registry="192.168.0.104:5000"
+
+minikube mount $(pwd):/mnt
+
 ```
 
 Replace 192.168.0.104 with your host machine IP.
@@ -23,8 +26,8 @@ Replace 192.168.0.104 with your host machine IP.
 # change realm
 kdd realm dev # if the context doesn't exist, it will ask you to say YES to create it
 
-# build the images
-kdd dbuild
+# build the images (no web-server since the binary comes from rs-builder)
+kdd dbuild db
 
 # push to registry
 kdd dpush
@@ -40,18 +43,9 @@ kdd kapply
 minikube tunnel
 
 # get the EXTERNAL-IP assigned to the service
-kubectl get svc zeroflux-web-server-srv
+kubectl get svc rust10x-web-server-srv
 ```
 
-## 5. Replace IP in script.js and Open index.html in frontend/
+## 5. Test
 
-Replace the IP with the service's EXTERNAL-IP:
-
-```js
-const sse = new EventSource("http://IP:8081/sse");
-```
-
-When you open the index.html, you should see SSE events appearing on the page every few seconds.
-
-
-
+Make some requests to the API at http://IP:8081/ (replace IP with the service's EXTERNAL-IP)
