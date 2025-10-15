@@ -36,6 +36,11 @@ spec:
         - image: debian:bullseye-slim
           name: rust10x-web-server-ctn
           imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: rust10x-config
+            - secretRef:
+                name: rust10x-secret
           env:
             - name: service_name
               value: rust10x-web-server

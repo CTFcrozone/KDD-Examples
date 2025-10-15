@@ -41,7 +41,7 @@ spec:
             # Default root postgres user password.
             # NOT FOR PRODUCTION!!!!! FOR DEV ONLY. In prod use cloud sql / rds. Set root password.
             - name: POSTGRES_PASSWORD
-              value: "postgres"
+              value: "welcome"
           ports:
             - containerPort: 5432
               protocol: TCP

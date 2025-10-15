@@ -41,7 +41,10 @@ pub async fn init_dev_db() -> Result<(), Box<dyn std::error::Error>> {
 	// -- Create the app_db/app_user with the postgres user.
 	{
 		let sql_recreate_db_file = sql_dir.join(SQL_RECREATE_DB_FILE_NAME);
-		let root_db = new_db_pool(PG_DEV_POSTGRES_URL).await?;
+		let root_db = new_db_pool(PG_DEV_POSTGRES_URL)
+			.await
+			.map_err(|ex| format!("ERROR OCCURRED -- {ex}"))?;
+
 		pexec(&root_db, &sql_recreate_db_file).await?;
 	}
 
@@ -52,7 +55,9 @@ pub async fn init_dev_db() -> Result<(), Box<dyn std::error::Error>> {
 	paths.sort();
 
 	// -- SQL Execute each file.
-	let app_db = new_db_pool(PG_DEV_APP_URL).await?;
+	let app_db = new_db_pool(PG_DEV_APP_URL)
+		.await
+		.map_err(|ex| format!("ERROR OCCURRED -- {ex}"))?;
 
 	for path in paths {
 		let path_str = path.to_string_lossy();
@@ -101,7 +106,7 @@ async fn pexec(db: &Db, file: &Path) -> Result<(), sqlx::Error> {
 async fn new_db_pool(db_con_url: &str) -> Result<Db, sqlx::Error> {
 	PgPoolOptions::new()
 		.max_connections(1)
-		.acquire_timeout(Duration::from_millis(500))
+		.acquire_timeout(Duration::from_secs(5))
 		.connect(db_con_url)
 		.await
 }
