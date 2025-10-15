@@ -13,6 +13,7 @@ _*
 # -- Rust
 target/
 rs-builder/rs-builder-target/*
+!k8s/**/_*
 # !Cargo.lock # commented by default
 !.cargo/
 

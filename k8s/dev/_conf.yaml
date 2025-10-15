@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rust10x-app-secret
+type: Opaque
+data:
+  DB_PASSWORD: d2VsY29tZQ==
+  SERVICE_TOKEN_KEY: OUZvSEJta3l4Ymd1X3hGb1FLN2UwanozUk1OVkpXZ2Z2YlZuNzEyRkJOSDlMTGFBV1MzQ1M2WnBjZzZSdmVpT2J2Q1ViNmEyei11QWlMamhMaDJpZ3c=
+  SERVICE_PWD_KEY: Q0tVR0ZPRDlfMlFmNlBuM1pGUllnUFliOGh0NHZLcUVHOVBHTVhUQjc0OTdiVDAzNjdEam9hRDZ5ZEZuRVZhSVJkYTBrS2VCWlZDVDVIYjYybTJzQ0E=
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rust10x-config
+data:
+  SERVICE_TOKEN_DURATION_SEC: "1800"
+  SERVICE_WEB_FOLDER: web-folder/
+
+  SERVICE_DB_URL: "postgres://app_user:dev_only_pwd@localhost/app_db"
