@@ -9,7 +9,7 @@ _*
 *.lock
 *.lockb
 *.log
-
+.out
 # -- Rust
 target/
 rs-builder/rs-builder-target/*
