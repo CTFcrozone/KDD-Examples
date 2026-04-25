@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rust10x-web-server
+  namespace: rust10x-web-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rust10x-web-server
+  template:
+    metadata:
+      labels:
+        app: rust10x-web-server
+    spec:
+      containers:
+        - name: web-server
+          image: k3d-rust10x-reg.localhost:5000/rust10x-web-server:0.1.0
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: rust10x-config
+            - secretRef:
+                name: rust10x-db-secret
+            - secretRef:
+                name: rust10x-auth-secret
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

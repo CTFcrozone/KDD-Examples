@@ -7,7 +7,7 @@ WORKDIR /build
 COPY . .
 
 # Build only the web-server binary
-RUN cargo build -p web-server --release
+RUN cargo build -p db-mgmt --release
 
 # Stage 2: Runtime
 FROM debian:bullseye-slim
@@ -15,13 +15,13 @@ FROM debian:bullseye-slim
 WORKDIR /service
 
 # Copy the compiled binary
-COPY --from=builder /build/target/release/web-server ./web-server
+COPY --from=builder /build/target/release/db-mgmt ./db-mgmt
 
 # Copy web folder and SQL folder
-COPY --from=builder /build/web-folder ./web-folder/
+COPY --from=builder /build/crates/services/db-mgmt/sql ./sql/
 
 # Copy entrypoint script
-COPY --from=builder /build/crates/services/web-server/entrypoint.sh ./entrypoint.sh
+COPY --from=builder /build/crates/services/db-mgmt/entrypoint.sh ./entrypoint.sh
 
 # Make entrypoint executable
 RUN chmod +x entrypoint.sh

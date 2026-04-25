@@ -14,6 +14,8 @@ members = [
 
     # -- Application Services
     "crates/services/web-server",
+    "crates/services/db-mgmt",
+
 
     # -- Tools
     "crates/tools/gen-key",

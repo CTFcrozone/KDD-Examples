@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rust10x-valkey
+  namespace: rust10x-web-app
+spec:
+  serviceName: rust10x-valkey
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rust10x-valkey
+  template:
+    metadata:
+      labels:
+        app: rust10x-valkey
+    spec:
+      containers:
+        - name: valkey
+          image: valkey/valkey:8.1.3-bookworm
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi

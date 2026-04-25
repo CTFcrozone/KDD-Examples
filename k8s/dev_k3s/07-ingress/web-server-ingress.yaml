@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rust10x-web-server
+  namespace: rust10x-web-app
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  rules:
+    - host: api.rust10x.local
+      http:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: rust10x-web-server
+              port:
+                number: 80

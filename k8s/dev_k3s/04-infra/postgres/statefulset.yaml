@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rust10x-db
+  namespace: rust10x-web-app
+spec:
+  serviceName: rust10x-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rust10x-db
+  template:
+    metadata:
+      labels:
+        app: rust10x-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:18
+          ports:
+            - containerPort: 5432
+          env:
+            # Root password
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rust10x-postgres-secret
+                  key: POSTGRES_ROOT_PASSWORD
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/18/data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 20Gi

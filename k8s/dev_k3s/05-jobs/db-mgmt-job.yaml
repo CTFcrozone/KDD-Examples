@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rust10x-db-mgmt
+  namespace: rust10x-web-app
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: db-mgmt
+          image: k3d-rust10x-reg.localhost:5000/rust10x-db-mgmt:0.1.0
+          envFrom:
+            - configMapRef:
+                name: rust10x-config
+            - secretRef:
+                name: rust10x-auth-secret
+            - secretRef:
+                name: rust10x-db-secret

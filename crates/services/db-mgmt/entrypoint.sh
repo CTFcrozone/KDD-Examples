@@ -2,8 +2,8 @@
 set -e  # Exit on error
 
 # Start the application in background
-echo "Starting web-server..."
-/service/web-server &
+echo "Starting db-mgmt..."
+/service/db-mgmt &
 APP_PID=$!
 
 # Setup signal handling
@@ -18,8 +18,8 @@ trap _term SIGTERM SIGINT
 
 # Keep container alive
 # Use wait instead of tail -f for proper signal handling
-echo "Container running, waiting for web-server (PID: $APP_PID)..."
+echo "Container running, waiting for db-mgmt (PID: $APP_PID)..."
 wait "$APP_PID"
 
 # If web-server exits, the container will exit
-echo "web-server process ended"
+echo "db-mgmt process ended"
