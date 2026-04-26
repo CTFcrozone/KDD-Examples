@@ -25,6 +25,12 @@ spec:
                 name: rust10x-db-secret
             - secretRef:
                 name: rust10x-auth-secret
+          securityContext:
+            runAsNonRoot: false
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
           resources:
             requests:
               cpu: 100m

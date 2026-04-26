@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-postgres-ingress
+  namespace: rust10x-web-app
+spec:
+  podSelector:
+    matchLabels:
+      app: rust10x-db
+
+  policyTypes:
+    - Ingress
+
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: rust10x-web-server
+        - podSelector:
+            matchLabels:
+              app: rust10x-db-mgmt
+      ports:
+        - port: 5432

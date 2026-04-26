@@ -57,3 +57,7 @@ kubectl get svc rust10x-web-server-srv
 ## 6. Test
 
 Make some requests to the API at http://IP:8081/ (replace IP with the service's EXTERNAL-IP)
+
+## Note
+
+For k3s setup use the `k3s_cmds.txt` for reference

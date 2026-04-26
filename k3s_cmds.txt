@@ -1,5 +1,18 @@
 k3d registry create rust10x-reg.localhost --port 5000
-k3d cluster create rust10x --registry-use k3d-rust10x-reg.localhost:5000
+
+k3d cluster create rust10x \
+  -p "80:80@loadbalancer" \
+  -p "443:443@loadbalancer" \
+  --registry-use k3d-rust10x-reg.localhost:5000
+
+docker build -f crates/services/web-server/Dockerfile -t rust10x-web-server:0.1.0 .
+docker build -f crates/services/db-mgmt/Dockerfile -t rust10x-db-mgmt:0.1.0 .
+
+docker tag rust10x-web-server:0.1.0 k3d-rust10x-reg.localhost:5000/rust10x-web-server:0.1.0
+docker tag rust10x-db-mgmt:0.1.0 k3d-rust10x-reg.localhost:5000/rust10x-db-mgmt:0.1.0
+
+docker push k3d-rust10x-reg.localhost:5000/rust10x-web-server:0.1.0
+docker push k3d-rust10x-reg.localhost:5000/rust10x-db-mgmt:0.1.0
 
 kubectl apply -f k8s/dev_k3s/00-namespace.yaml
 kubectl apply -f k8s/dev_k3s/01-pod-security.yaml
@@ -13,3 +26,19 @@ kubectl apply -f k8s/dev_k3s/04-infra/valkey/statefulset.yaml
 kubectl apply -f k8s/dev_k3s/04-infra/valkey/service.yaml
 
 kubectl apply -f k8s/dev_k3s/05-jobs/db-mgmt-job.yaml
+
+kubectl apply -f k8s/dev_k3s/06-services/web-server/deployment.yaml
+kubectl apply -f k8s/dev_k3s/06-services/web-server/service.yaml
+
+kubectl apply -f k8s/dev_k3s/07-ingress/tls-secret.yaml
+kubectl apply -f k8s/dev_k3s/07-ingress/web-server-ingress.yaml
+
+
+// breaks something -- DO NOT USE NOW
+
+kubectl apply -f k8s/dev_k3s/08-network-policy/00-allow-dns.yaml
+kubectl apply -f k8s/dev_k3s/08-network-policy/01-allow-postgres.yaml
+kubectl apply -f k8s/dev_k3s/08-network-policy/02-web-server-egress.yaml
+kubectl apply -f k8s/dev_k3s/08-network-policy/03-web-server-ingress.yaml
+kubectl apply -f k8s/dev_k3s/08-network-policy/04-db-mgmt-egress.yaml
+kubectl apply -f k8s/dev_k3s/08-network-policy/05-default-deny.yaml

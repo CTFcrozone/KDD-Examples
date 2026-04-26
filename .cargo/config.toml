@@ -20,9 +20,9 @@ RUST_LOG="web_server=debug,lib_core=debug,lib_web=debug,lib_auth=debug,lib_utils
 
 SERVICE_DB_URL="postgres://app_user:dev_only_pwd@localhost/app_db"
 
-SERVICE_PWD_KEY="CKUGFOD9_2Qf6Pn3ZFRYgPYb8ht4vKqEG9PGMXTB7497bT0367DjoaD6ydFnEVaIRda0kKeBZVCT5Hb62m2sCA"
+SERVICE_PWD_KEY="4gBVN7ttjQR30-l9-xqLuyEx-j41vPi2Xkptc1610SyQP2pJPLCiNnggnO8lt2KRQ8XjH8Uq4IQzzGtq7E7eBA"
 
-SERVICE_TOKEN_KEY="9FoHBmkyxbgu_xFoQK7e0jz3RMNVJWgfvbVn712FBNH9LLaAWS3CS6Zpcg6RveiObvCUb6a2z-uAiLjhLh2igw"
+SERVICE_TOKEN_KEY="aWZn4Vi8KXoyvQcLVfE6BnfgVdHBh5R8xAXZXOD-lSqxy2xRV_l4ZoS_2CiJpLQ9KBhXsd6zouN8R9dN009E0Q"
 SERVICE_TOKEN_DURATION_SEC="1800" # 30 minutes
 
 ## -- ConfigMap

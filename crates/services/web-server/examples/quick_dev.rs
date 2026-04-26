@@ -7,7 +7,7 @@ use serde_json::{json, Value};
 
 #[tokio::main]
 async fn main() -> Result<()> {
-	let hc = httpc_test::new_client("http://localhost:8080")?;
+	let hc = httpc_test::new_client("http://api.rust10x.local")?;
 
 	// hc.do_get("/index.html").await?.print().await?;
 
@@ -16,7 +16,7 @@ async fn main() -> Result<()> {
 		"/api/login",
 		json!({
 			"username": "demo1",
-			"pwd": "welcome"
+			"pwd": "e"
 		}),
 	);
 	req_login.await?.print().await?;

@@ -32,8 +32,8 @@ async fn main() -> Result<()> {
 		.with_env_filter(EnvFilter::from_default_env())
 		.init();
 
-	// -- FOR DEV ONLY
-	_dev_utils::init_dev().await;
+	// -- FOR DEV ONLY (now handled by db-mgmt)
+	// _dev_utils::init_dev().await;
 
 	let mm = ModelManager::new().await?;
 

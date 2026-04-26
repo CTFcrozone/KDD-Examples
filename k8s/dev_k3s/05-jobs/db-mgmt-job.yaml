@@ -5,6 +5,7 @@ metadata:
   namespace: rust10x-web-app
 spec:
   backoffLimit: 3
+  activeDeadlineSeconds: 300
   template:
     spec:
       restartPolicy: OnFailure
@@ -18,3 +19,8 @@ spec:
                 name: rust10x-auth-secret
             - secretRef:
                 name: rust10x-db-secret
+          securityContext:
+            runAsNonRoot: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
