@@ -34,11 +34,3 @@ spec:
               port: 5432
             initialDelaySeconds: 10
             periodSeconds: 10
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 20Gi
